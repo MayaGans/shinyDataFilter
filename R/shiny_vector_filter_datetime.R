@@ -1,4 +1,3 @@
-#' @importFrom shinyTime timeInput
 #' @importFrom shiny NS uiOutput
 #' @export
 shiny_vector_filter_ui.POSIXct <- function(data, inputId) {
@@ -6,7 +5,7 @@ shiny_vector_filter_ui.POSIXct <- function(data, inputId) {
   shiny::uiOutput(ns("ui"))
 }
  
-
+#' @importFrom shinyTime timeInput
 #' @export
 shiny_vector_filter.POSIXct <- function(data, inputId, ...) {
   function(input, output, session, x = shiny::reactive(), 
