@@ -2,8 +2,13 @@ library(shiny)
 library(IDEAFilter)
 library(dplyr)
 library(haven)
+library(purrr)
 
-starwars2 <- iris
+starwars2 <- tibble(
+  char = c("1", "2", NA),
+  cat = c("a", "b", "c"),
+  boo = c(F, T, NA)
+)
 
 # View(starwars2)
 

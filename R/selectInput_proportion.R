@@ -25,7 +25,7 @@ proportionSelectInput <- function(inputId, label, vec, selected = "", ...,
   # vecr_props  <- vecr_counts / sum(vecr_counts)
   
   # if (sort == "count") {
-    vecr_unique <- names(vecr_counts)
+    vecr_unique <- c(names(vecr_counts), NA)
   # } else if (sort == "alpha") {
   #   vecr_unique <- as.character(sort(unique(Filter(Negate(is.na), vecr()))))
   # } else {
