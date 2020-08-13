@@ -7,10 +7,9 @@ library(purrr)
 starwars2 <- tibble(
   char = c("1", "2", NA),
   cat = c("a", "b", "c"),
-  boo = c(F, T, NA)
+  boo = c(F, T, NA),
+  num = c(1,2,NA)
 )
-
-# View(starwars2)
 
 ui <- fluidPage(
   titlePanel("Filter Data Example"),

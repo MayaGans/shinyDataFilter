@@ -41,7 +41,7 @@ shiny_vector_filter_numeric_few <- function(input, output, session,
                           transform-origin: left;" #,
                ),
                shiny::checkboxGroupInput(ns("param"), NULL,
-                                         choices = choices(),
+                                         choices = c(choices(), NA),
                                          selected = shiny::isolate(input$param) %||% c(),
                                          width = "100%"))
   })
@@ -63,8 +63,10 @@ shiny_vector_filter_numeric_few <- function(input, output, session,
   #   ggplot2::scale_y_continuous(expand = c(0, 0))
   
   module_return$code <- shiny::reactive({
-    if (length(input$param))
-      bquote(.x %in% .(c(if (filter_na()) c() else NA, input$param)))
+    if ("" %in% input$param)
+      bquote(.x %in% .(c(if (filter_na()) c() else NA, input$param[input$param != ""])))
+    else if (length(input$param))
+      bquote(.x %in% .(c(if (filter_na()) c() else input$param)))
     else if (filter_na())
       bquote(!is.na(.x))
     else
