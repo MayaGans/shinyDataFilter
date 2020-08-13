@@ -49,7 +49,6 @@ shiny_vector_filter.logical <- function(data, inputId, ...) {
       if ("" %in% input$param) {
         # if NA, FALSE, and TRUE
         if (length(setdiff(c("", TRUE, FALSE), input$param)) == 0) {
-          print("test")
           exprs <- list(quote(is.na(.x)))
           exprs <- append(exprs, list(quote(!.x)))
           exprs <- append(exprs, list(quote(.x)))
