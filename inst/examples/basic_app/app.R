@@ -4,7 +4,7 @@ library(dplyr)
 library(haven)
 library(purrr)
 
-starwars2 <- tibble(
+dummy <- tibble(
   char = c("1", "2", NA),
   cat = c("a", "b", "c"),
   boo = c(F, T, NA),
@@ -25,7 +25,7 @@ server <- function(input, output, session) {
   filtered_data <- callModule(
     IDEAFilter::shiny_data_filter,
     "data_filter",
-    data = starwars2,
+    data = dummy,
     verbose = FALSE)
   
   output$data_filter_code <- renderPrint({
