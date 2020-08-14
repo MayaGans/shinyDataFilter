@@ -1,11 +1,15 @@
 library(shiny)
 library(IDEAFilter)
-library(dplyr)
-library(haven)
 
-starwars2 <- iris
+dummy <- data.frame(
+  date = lubridate::ymd("2020-01-01", "2020-02-02", NA),
+  date_pos = as.POSIXct(lubridate::ymd("2020-01-01", "2020-02-02", NA)),
+  num = c(NA, 1,2),
+  char = c("a", "b", NA),
+  boo = c(T,F,NA)
+)
 
-# View(starwars2)
+test <- lubridate::ymd("2020-01-01")
 
 ui <- fluidPage(
   titlePanel("Filter Data Example"),
@@ -21,7 +25,7 @@ server <- function(input, output, session) {
   filtered_data <- callModule(
     IDEAFilter::shiny_data_filter,
     "data_filter",
-    data = starwars2,
+    data = dummy,
     verbose = FALSE)
   
   output$data_filter_code <- renderPrint({
@@ -33,7 +37,7 @@ server <- function(input, output, session) {
     ))
   })
   
-  output$data_summary <- renderDataTable({
+  output$data_summary <- shiny::renderDataTable({
     filtered_data() 
   }, 
   options = list(

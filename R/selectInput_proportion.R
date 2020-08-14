@@ -20,7 +20,8 @@ proportionSelectInput <- function(inputId, label, vec, selected = "", ...,
   
   vecr <- if (is.reactive(vec)) vec else reactive(vec)
   
-  vecr_counts <- table(vecr())
+  vecr_counts <- table(vecr(), useNA="ifany")
+  print(vecr_counts)
   # vecr_counts <- setNames(as.numeric(vecr_counts), names(vecr_counts))
   # vecr_props  <- vecr_counts / sum(vecr_counts)
   

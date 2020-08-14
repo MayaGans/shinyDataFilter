@@ -18,7 +18,7 @@ shiny_vector_filter.logical <- function(data, inputId, ...) {
     x_wo_NA <- shiny::reactive(Filter(Negate(is.na), x()))
     module_return <- shiny::reactiveValues(code = TRUE, mask = TRUE)
     choices <- shiny::reactive({
-      Filter(function(i) i %in% x(), c("True" = TRUE, "False" = FALSE))
+      Filter(function(i) i %in% x(), c("True" = TRUE, "False" = FALSE, "NA" = NA))
     })
     
     output$ui <- shiny::renderUI({
@@ -41,18 +41,38 @@ shiny_vector_filter.logical <- function(data, inputId, ...) {
     module_return$code <- shiny::reactive({
       exprs <- list()
       
-      if (TRUE %in% input$param) 
-        exprs <- append(exprs, list(quote(.x)))
-      if (FALSE %in% input$param) 
+      # if true return the vector without NAs
+      if (TRUE %in% input$param)  exprs <- append(exprs, list(quote(.x)))
+      # if false return the vector without NAs
+      if (FALSE %in% input$param) exprs <- append(exprs, list(quote(!.x)))
+      # if NAs
+      if ("" %in% input$param) {
+        # if NA, FALSE, and TRUE
+        if (length(setdiff(c("", TRUE, FALSE), input$param)) == 0) {
+          exprs <- list(quote(is.na(.x)))
+          exprs <- append(exprs, list(quote(!.x)))
+          exprs <- append(exprs, list(quote(.x)))
+        # if NA and FALSE
+        } else if (FALSE %in% input$param) {
+          exprs <- list(quote(is.na(.x)))
+          exprs <- append(exprs, list(quote(!.x)))
+        # if NA and TRUE
+        } else if (TRUE %in% input$param) {
+          exprs <- list(quote(is.na(.x)))
+          exprs <- append(exprs, list(quote(.x)))
+        # if just NA
+        } else {
+          exprs <- list(quote(is.na(.x)))
+        }
+      }
+      
+      if (length(setdiff(input$param, c("", TRUE, FALSE)))) {
+        exprs <- list(quote(is.na(.x)))
         exprs <- append(exprs, list(quote(!.x)))
-      
-      if (length(input$param) == 2 && filter_na())
-        exprs <- list(quote(!is.na(.x)))
-      else if (length(input$param) && !filter_na()) 
-        exprs <- append(exprs, list(quote(is.na(.x))))
-      
-      
-      if (length(exprs) && length(exprs) < 3) 
+        exprs <- append(exprs, list(quote(.x)))
+      }
+        
+      if (length(exprs) && length(exprs) < 4) 
         Reduce(function(l, r) bquote(.(l) | .(r)), exprs)
       else 
         TRUE

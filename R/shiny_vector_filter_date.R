@@ -26,13 +26,16 @@ shiny_vector_filter.Date <- function(data, inputId, ...) {
                    0.5s ease-in  0s 1 shinyDataFilterFadeIn; 
                    transform-origin: bottom;"),
         if (any(!is.na(x()))) {
-          shiny::dateRangeInput(ns("param"), NULL,
-                             #value = shiny::isolate(input$param) %||% range(x(), na.rm = TRUE), 
-                             start = min(x(), na.rm = TRUE), 
-                             end = max(x(), na.rm = TRUE),
-                             min = min(x(), na.rm = TRUE), 
-                             max = max(x(), na.rm = TRUE)
-                             )
+          shiny::tags$div(
+            shiny::dateRangeInput(ns("param"), NULL,
+                                  #value = shiny::isolate(input$param) %||% range(x(), na.rm = TRUE), 
+                                  start = min(x(), na.rm = TRUE), 
+                                  end = max(x(), na.rm = TRUE),
+                                  min = min(x(), na.rm = TRUE), 
+                                  max = max(x(), na.rm = TRUE)
+            ),
+            shiny::checkboxInput(ns("use_na"), "Include NAs", value = TRUE)
+          )
         } else {
           shiny::div(
             style = "padding-top: 10px; opacity: 0.3; text-align: center;",
@@ -52,11 +55,11 @@ shiny_vector_filter.Date <- function(data, inputId, ...) {
       
       if (length(exprs) > 1) {
         expr <- Reduce(function(l, r) bquote(.(l) & .(r)), exprs)
-        if (!filter_na()) expr <- bquote(is.na(.x) | (.(expr)))
+        if (input$use_na) expr <- bquote(is.na(.x) | (.(expr)))
       } else if (length(exprs) == 1) {
         expr <- exprs[[1]]
-        if (!filter_na()) expr <- bquote(is.na(.x) | .(expr))
-      } else if (filter_na()) {
+        if (input$use_na) expr <- bquote(is.na(.x) | .(expr))
+      } else if (!input$use_na) {
         expr <- bquote(!is.na(.x))
       } else {
         return(TRUE)
