@@ -1,10 +1,7 @@
 library(shiny)
 library(IDEAFilter)
-library(dplyr)
-library(haven)
-library(purrr)
 
-dummy <- tibble(
+dummy <- data.frame(
   date = lubridate::ymd("2020-01-01", "2020-02-02", NA),
   date_pos = as.POSIXct(lubridate::ymd("2020-01-01", "2020-02-02", NA)),
   num = c(NA, 1,2),
