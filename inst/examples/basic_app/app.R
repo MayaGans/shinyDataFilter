@@ -5,10 +5,8 @@ library(haven)
 library(purrr)
 
 dummy <- tibble(
-  char = c("1", "2", NA),
-  cat = c("a", "b", "c"),
-  boo = c(F, T, NA),
-  num = c(1,2,NA)
+  boo = c(T,F, NA, T),
+  num = c(1,2,3,NA)
 )
 
 ui <- fluidPage(
