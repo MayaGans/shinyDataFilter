@@ -18,11 +18,11 @@ Imports:
     pillar,
     crayon,
     RColorBrewer,
-    waiter,
     shinyTime
 Suggests:
     shinytest,
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    DT
 VignetteBuilder: knitr
