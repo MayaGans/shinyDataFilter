@@ -5,9 +5,14 @@ library(haven)
 library(purrr)
 
 dummy <- tibble(
-  dates = lubridate::ymd("2020-01-01", NA, "2020-02-02"),
-  num = c(NA, 1,2)
+  date = lubridate::ymd("2020-01-01", "2020-02-02", NA),
+  date_pos = as.POSIXct(lubridate::ymd("2020-01-01", "2020-02-02", NA)),
+  num = c(NA, 1,2),
+  char = c("a", "b", NA),
+  boo = c(T,F,NA)
 )
+
+test <- lubridate::ymd("2020-01-01")
 
 ui <- fluidPage(
   titlePanel("Filter Data Example"),

@@ -42,7 +42,8 @@ shiny_vector_filter.POSIXct <- function(data, inputId, ...) {
                     shiny::dateInput(ns("end_date"), "End Date",value = max(my_date, na.rm = TRUE)
                                  , min = min(my_date, na.rm = TRUE), max = max(my_date, na.rm = TRUE)),
                 shinyTime::timeInput(ns("end_time"), "End Time (HH:MM:SS)", value = max(p(), na.rm = TRUE))  # automatically takes the time element
-            )
+            ),
+            shiny::checkboxInput(ns("use_na"), "Include NAs", value = TRUE)
           )
         } else {
           shiny::div(
@@ -72,11 +73,11 @@ shiny_vector_filter.POSIXct <- function(data, inputId, ...) {
       
       if (length(exprs) > 1) {
         expr <- Reduce(function(l, r) bquote(.(l) & .(r)), exprs)
-        if (!filter_na()) expr <- bquote(is.na(.x) | (.(expr)))
+        if (input$use_na) expr <- bquote(is.na(.x) | (.(expr)))
       } else if (length(exprs) == 1) {
         expr <- exprs[[1]]
-        if (!filter_na()) expr <- bquote(is.na(.x) | .(expr))
-      } else if (filter_na()) {
+        if (input$use_na) expr <- bquote(is.na(.x) | .(expr))
+      } else if (!input$use_na) {
         expr <- bquote(!is.na(.x))
       } else {
         return(TRUE)
