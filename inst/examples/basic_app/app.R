@@ -37,7 +37,7 @@ server <- function(input, output, session) {
     ))
   })
   
-  output$data_summary <- renderDataTable({
+  output$data_summary <- shiny::renderDataTable({
     filtered_data() 
   }, 
   options = list(
