@@ -5,8 +5,8 @@ library(haven)
 library(purrr)
 
 dummy <- tibble(
-  num = c(NA, 100:150),
-  car = "test"
+  dates = lubridate::ymd("2020-01-01", NA, "2020-02-02"),
+  num = c(NA, 1,2)
 )
 
 ui <- fluidPage(
