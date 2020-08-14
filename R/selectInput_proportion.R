@@ -20,12 +20,13 @@ proportionSelectInput <- function(inputId, label, vec, selected = "", ...,
   
   vecr <- if (is.reactive(vec)) vec else reactive(vec)
   
-  vecr_counts <- table(vecr())
+  vecr_counts <- table(vecr(), useNA="ifany")
+  print(vecr_counts)
   # vecr_counts <- setNames(as.numeric(vecr_counts), names(vecr_counts))
   # vecr_props  <- vecr_counts / sum(vecr_counts)
   
   # if (sort == "count") {
-    vecr_unique <- c(names(vecr_counts), NA)
+    vecr_unique <- names(vecr_counts)
   # } else if (sort == "alpha") {
   #   vecr_unique <- as.character(sort(unique(Filter(Negate(is.na), vecr()))))
   # } else {

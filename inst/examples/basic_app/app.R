@@ -6,7 +6,8 @@ library(purrr)
 
 dummy <- tibble(
   boo = c(T,F, NA, T),
-  num = c(1,2,3,NA)
+  num = c(1,2,3,NA),
+  chr = c("a", "b", "c", NA)
 )
 
 ui <- fluidPage(
