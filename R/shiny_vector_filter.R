@@ -137,4 +137,5 @@ get_dataFilter_class <- function(obj) {
 
   type <- pillar::type_sum(obj)
   if (length(type) == 0L) "" else type
+
 }
