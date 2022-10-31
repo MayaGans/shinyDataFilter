@@ -124,15 +124,18 @@ shiny_vector_filter.default <- function(data, inputId, ...) {
 #' @importFrom pillar new_pillar_type
 #' 
 get_dataFilter_class <- function(obj) {
-  vf_methods <- gsub(".*\\.", "", as.character(methods(shiny_vector_filter)))
-  
+  vf_methods <- gsub(".*\\.", "", as.character(utils::methods(shiny_vector_filter)))
+
   if ("numeric" %in% vf_methods)
     vf_methods <- c(vf_methods, "real", "double", "integer")
-  
+
   vf_class <- class(obj)
   vf_class <- vf_class[vf_class %in% vf_methods]
-  
+
   if (!length(vf_class)) return("unk")
   class(obj) <- vf_class
-  pillar::new_pillar_type(obj)$type
+
+  type <- pillar::type_sum(obj)
+  if (length(type) == 0L) "" else type
+
 }
